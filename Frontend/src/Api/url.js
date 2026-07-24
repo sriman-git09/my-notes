@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios from "axios";
 
 const BACKEND_URL = axios.create({
-    baseURL: "http://localhost:4001/api/v1/noteapp/"
-})
+  baseURL: "https://my-notes-jafj.onrender.com",
+});
 
-export default BACKEND_URL
+export default BACKEND_URL;
