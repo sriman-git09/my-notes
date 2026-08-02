@@ -1,0 +1,46 @@
+/* Full Screen Splash */
+.splash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #ffffff;
+  overflow: hidden;
+  z-index: 9999;
+
+  will-change: transform, opacity;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .splash-container {
+    background: #111111;
+  }
+}
+
+/* Logo Image */
+.logo-image {
+  width: 230px;
+  max-width: 80%;
+  height: auto;
+
+  display: block;
+
+  user-select: none;
+  pointer-events: none;
+
+  will-change: transform, opacity, filter;
+}
+
+/* Mobile */
+@media (max-width:768px) {
+  .logo-image {
+    width: 180px;
+  }
+}
