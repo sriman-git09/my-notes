@@ -3,23 +3,10 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 
 import Home from "./pages/Home";
 import Createnote from "./pages/Createnote";
-
-import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
-import SplashScreen from "./components/SplashScreen/SplashScreen";
-
-import Home from "./pages/Home";
-import Createnote from "./pages/Createnote";
-
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 

@@ -19,9 +19,9 @@ function Navbar() {
         {/* Links */}
         <div className="space-x-6">
           <Link
-            to="/"
+            to="/home"
             className={`hover:text-blue-400 transition ${
-              location.pathname === "/" ? "text-blue-400 font-semibold" : "text-gray-300"
+              location.pathname === "/home" ? "text-blue-400 font-semibold" : "text-gray-300"
             }`}
           >
             Home

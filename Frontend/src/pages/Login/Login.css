@@ -6,6 +6,7 @@
   background: linear-gradient(to right, #e0eafc, #9ebde9);
   height: 100vh;
   margin: 0;
+  ;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,8 +24,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.3);
   overflow: hidden;
-  width: 800px;
-  max-width: 100%;
+  min-width: 50%;
   min-height: 550px;
   position: relative;
 }
