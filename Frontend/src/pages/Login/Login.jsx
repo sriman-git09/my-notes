@@ -126,7 +126,7 @@ function Login() {
     password: "",
   });
 
-  navigate("/");
+  navigate("/home");
 });
   } catch (err) {
     showError(err.response?.data?.message || "Login failed");
