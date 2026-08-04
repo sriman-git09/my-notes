@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 
 import Home from "./pages/Home";
-import Createnote from "./pages/Createnote.jsx";
+import Createnote from "./pages/Createnote";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
