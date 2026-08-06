@@ -1,5 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
-import BACKEND_URL from "../api/url";
+import {
+  getNotes as fetchNotes,
+  createNote as createNoteApi,
+  updateNote as updateNoteApi,
+  deleteNote as deleteNoteApi,
+} from "../api/noteApi";
 
 export const NoteContext = createContext();
 
@@ -10,53 +15,74 @@ export const NoteProvider = ({ children }) => {
   // Fetch all notes
   const getNotes = async () => {
     setLoading(true);
+
     try {
-      const response = await BACKEND_URL.get("/get-notes");
-      setNotes(response.data.notes); // <-- Fixed
+      const data = await fetchNotes();
+      setNotes(data.notes || []);
     } catch (error) {
       console.error("Error fetching notes:", error);
+
+      if (error.response?.status === 401) {
+        localStorage.removeItem("token");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getNotes();
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      getNotes();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
-  // Create a note
+  // Create Note
   const createNote = async (note) => {
     try {
-      const res = await BACKEND_URL.post("/create-note", note);
-      setNotes([res.data.note, ...notes]); // <-- Fixed
+      const data = await createNoteApi(note);
+
+      setNotes((prevNotes) => [data.note, ...prevNotes]);
+
+      return data;
     } catch (error) {
       console.error("Error creating note:", error);
+      throw error;
     }
   };
 
-  // Update a note
+  // Update Note
   const updateNote = async (id, updatedNote) => {
     try {
-      const res = await BACKEND_URL.put(`/update-note/${id}`, updatedNote);
+      const data = await updateNoteApi(id, updatedNote);
 
-      setNotes(
-        notes.map((note) =>
-          note._id === id ? res.data.note : note // <-- Fixed
+      setNotes((prevNotes) =>
+        prevNotes.map((note) =>
+          note._id === id ? data.note : note
         )
       );
+
+      return data;
     } catch (error) {
       console.error("Error updating note:", error);
+      throw error;
     }
   };
 
-  // Delete a note
+  // Delete Note
   const deleteNote = async (id) => {
     try {
-      await BACKEND_URL.delete(`/delete-note/${id}`);
+      await deleteNoteApi(id);
 
-      setNotes(notes.filter((note) => note._id !== id));
+      setNotes((prevNotes) =>
+        prevNotes.filter((note) => note._id !== id)
+      );
     } catch (error) {
       console.error("Error deleting note:", error);
+      throw error;
     }
   };
 
@@ -65,6 +91,7 @@ export const NoteProvider = ({ children }) => {
       value={{
         notes,
         loading,
+        getNotes,
         createNote,
         updateNote,
         deleteNote,
