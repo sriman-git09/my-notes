@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-.container {
+.login-page-body .login-container {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(12px);
   border-radius: 20px;
@@ -29,39 +29,39 @@
   position: relative;
 }
 
-.form-container {
+.login-page-body .login-form-container {
   position: absolute;
   top: 0;
   height: 100%;
   transition: all 0.6s ease-in-out;
 }
 
-.sign-in-container {
+.login-page-body .login-sign-in {
   left: 0;
   width: 50%;
   z-index: 2;
 }
 
-.sign-up-container {
+.login-page-body .login-sign-up {
   left: 0;
   width: 50%;
   opacity: 0;
   z-index: 1;
 }
 
-.container.right-panel-active .sign-up-container {
+.login-page-body .login-container.right-panel-active .login-sign-up {
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;
 }
 
-.container.right-panel-active .sign-in-container {
+.login-page-body .login-container.right-panel-active .login-sign-in {
   transform: translateX(100%);
   opacity: 0;
   z-index: 1;
 }
 
-form {
+.login-page-body form {
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -72,13 +72,14 @@ form {
   text-align: center;
 }
 
-form h1 {
+.login-page-body form h1 {
   font-size: 32px;
   margin-bottom: 20px;
-  text-decoration: underline;
+  color: #4b95b7;
+  font-weight: bold;
 }
 
-input, select {
+.login-page-body input, .login-page-body select {
   background: rgba(255, 255, 255, 0.7);
   border: none;
   padding: 12px 15px;
@@ -86,19 +87,21 @@ input, select {
   width: 100%;
   border-radius: 5px;
   font-size: 14px;
+  overflow: hidden;
+  color: #000000;
 }
 
-.password-wrapper {
+.login-page-body .password-wrapper {
   position: relative;
   width: 100%;
 }
 
-.password-wrapper input {
+.login-page-body .password-wrapper input {
   width: 100%;
   padding-right: 45px;
 }
 
-.eye-icon {
+.login-page-body .eye-icon {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -108,7 +111,7 @@ input, select {
   user-select: none;
 }
 
-button {
+.login-page-body button {
   border-radius: 20px;
   border: 1px solid #0066cc;
   background-color: #0066cc;
@@ -122,22 +125,22 @@ button {
   cursor: pointer;
 }
 
-button:active {
+.login-page-body button:active {
   transform: scale(0.95);
 }
 
-button.ghost {
+.login-page-body button.ghost {
   background-color: transparent;
   border-color: #ffffff;
 }
 
-a {
+.login-page-body a {
   color: #333;
   font-size: 14px;
   text-decoration: none;
 }
 
-.overlay-container {
+.login-page-body .login-overlay-container {
   position: absolute;
   top: 0;
   left: 50%;
@@ -148,11 +151,11 @@ a {
   z-index: 100;
 }
 
-.container.right-panel-active .overlay-container {
+.login-page-body .login-container.right-panel-active .login-overlay-container {
   transform: translateX(-100%);
 }
 
-.overlay {
+.login-page-body .login-overlay {
   background: linear-gradient(to right, #1d3557, #457b9d);
   color: #ffffff;
   position: relative;
@@ -163,11 +166,11 @@ a {
   transition: transform 0.6s ease-in-out;
 }
 
-.container.right-panel-active .overlay {
+.login-page-body .login-container.right-panel-active .login-overlay {
   transform: translateX(50%);
 }
 
-.overlay-panel {
+.login-page-body .login-overlay-panel {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -180,20 +183,20 @@ a {
   transition: transform 0.6s ease-in-out;
 }
 
-.overlay-left {
+.login-page-body .login-overlay-left {
   transform: translateX(-20%);
   left: 0;
 }
 
-.overlay-right {
+.login-page-body .login-overlay-right {
   right: 0;
   transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-left {
+.login-page-body .login-container.right-panel-active .login-overlay-left {
   transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+.login-page-body .login-container.right-panel-active .login-overlay-right {
   transform: translateX(20%);
 }

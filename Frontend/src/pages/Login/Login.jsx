@@ -145,10 +145,10 @@ function Login() {
 
   return (
     <div className="login-page-body">
-      <div className={`container ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
+      <div className={`login-container ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
         
         {/* Signup Form */}
-        <div className="form-container sign-up-container">
+        <div className="login-form-container login-sign-up">
           <form onSubmit={handleSignup}>
             <h1>Create Account</h1>
             
@@ -176,7 +176,7 @@ function Login() {
         </div>
 
         {/* Login Form */}
-        <div className="form-container sign-in-container">
+        <div className="login-form-container login-sign-in">
           <form onSubmit={handleLogin}>
             <h1>Login</h1>
             <input type="email" name="email" value={loginData.email} onChange={handleLoginChange} placeholder="Email" required />
@@ -195,14 +195,14 @@ function Login() {
         </div>
 
         {/* Sliding Overlays */}
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
+        <div className="login-overlay-container">
+          <div className="login-overlay">
+            <div className="login-overlay-panel login-overlay-left">
               <h1>Hello, User!</h1>
               <p>Enter your details and start your journey with us</p>
               <button className="ghost" type="button" onClick={() => setIsRightPanelActive(false)}><span>Login</span></button>
             </div>
-            <div className="overlay-panel overlay-right">
+            <div className="login-overlay-panel login-overlay-right">
               <h1>Welcome Back!</h1>
               <p>To stay connected, login with your personal info</p>
               <button className="ghost" type="button" onClick={() => setIsRightPanelActive(true)}><span>Sign Up</span></button>
