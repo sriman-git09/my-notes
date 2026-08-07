@@ -1,44 +1,74 @@
 import React, { createContext, useEffect, useState } from "react";
 import {
-  getNotes as fetchNotes,
+  getNotes as getNotesApi,
   createNote as createNoteApi,
   updateNote as updateNoteApi,
   deleteNote as deleteNoteApi,
 } from "../api/noteApi";
+import { getProfile } from "../api/authApi";
 
 export const NoteContext = createContext();
 
 export const NoteProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [user, setUser] = useState(null);
 
-  // Fetch all notes
-  const getNotes = async () => {
-    setLoading(true);
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    setNotes([]);
+    localStorage.removeItem("token");
+  };
 
+  const setAuthToken = (value) => {
+    if (value) {
+      localStorage.setItem("token", value);
+    } else {
+      localStorage.removeItem("token");
+    }
+    setToken(value);
+  };
+
+  const loadNotes = async () => {
     try {
-      const data = await fetchNotes();
+      const data = await getNotesApi();
       setNotes(data.notes || []);
     } catch (error) {
       console.error("Error fetching notes:", error);
 
       if (error.response?.status === 401) {
-        localStorage.removeItem("token");
+        logout();
       }
+      throw error;
+    }
+  };
+
+  const verifyToken = async () => {
+    setLoading(true);
+
+    try {
+      const profile = await getProfile();
+      setUser(profile);
+      await loadNotes();
+    } catch (error) {
+      console.error("Token verification failed:", error);
+      logout();
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     if (token) {
-      getNotes();
+      verifyToken();
     } else {
+      setUser(null);
+      setNotes([]);
       setLoading(false);
     }
-  }, []);
+  }, [token]);
 
   // Create Note
   const createNote = async (note) => {
@@ -91,10 +121,15 @@ export const NoteProvider = ({ children }) => {
       value={{
         notes,
         loading,
-        getNotes,
+        getNotes: loadNotes,
         createNote,
         updateNote,
         deleteNote,
+        token,
+        setAuthToken,
+        logout,
+        user,
+        isAuthenticated: !!user,
       }}
     >
       {children}

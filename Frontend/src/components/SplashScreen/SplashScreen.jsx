@@ -12,8 +12,9 @@ const SplashScreen = () => {
   const logoRef = useRef(null);
 
   useEffect(() => {
+    const destination = localStorage.getItem("token") ? "/home" : "/login";
     const tl = gsap.timeline({
-      onComplete: () => navigate("/login"),
+      onComplete: () => navigate(destination),
     });
 
     gsap.set(logoRef.current, {

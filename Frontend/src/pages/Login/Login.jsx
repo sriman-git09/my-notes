@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { signupUser, loginUser } from "../../api/authApi";
+import { NoteContext } from "../../context/NoteContext";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const { setAuthToken, loading, isAuthenticated } = useContext(NoteContext);
+
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate("/home", { replace: true });
+    }
+  }, [loading, isAuthenticated, navigate]);
 
   // States for animation and form handling
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -15,6 +23,9 @@ function Login() {
     email: "",
     password: "",
   });
+
+  // Password validation: 8-10 chars, at least 1 upper, 1 lower, 1 digit, 1 special, no spaces
+  const passwordRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}/;
 
   // Password visibility states
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -79,6 +90,10 @@ function Login() {
     return showError("Passwords do not match.");
   }
 
+  if (!passwordRegex.test(password)) {
+    return showError("Password must be 8-10 characters, include uppercase, lowercase, number, special character and no spaces.");
+  }
+
   try {
     const data = await signupUser({
       fullname,
@@ -110,10 +125,14 @@ function Login() {
   const handleLogin = async (e) => {
   e.preventDefault();
 
+  if (!passwordRegex.test(loginData.password)) {
+    return showError("Password must be 8-10 characters and cannot contain spaces.");
+  }
+
   try {
     const data = await loginUser(loginData);
 
-    localStorage.setItem("token", data.token);
+    setAuthToken(data.token);
 
     Swal.fire({
       icon: "success",
@@ -156,14 +175,14 @@ function Login() {
             <input type="email" name="email" value={signupData.email} onChange={handleSignupChange} placeholder="Email" required />
             
             <div className="password-wrapper">
-              <input type={showSignupPassword ? "text" : "password"} name="password" value={signupData.password} onChange={handleSignupChange} placeholder="Password" required />
+              <input maxLength={10} type={showSignupPassword ? "text" : "password"} name="password" value={signupData.password} onChange={handleSignupChange} placeholder="Password" required />
               <span onClick={() => setShowSignupPassword(!showSignupPassword)} className="eye-icon">
                 <i className={`fa-solid ${showSignupPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
               </span>
             </div>
 
             <div className="password-wrapper">
-              <input type={showSignupConfirmPassword ? "text" : "password"} name="confirmPassword" value={signupData.confirmPassword} onChange={handleSignupChange} placeholder="Confirm Password" required />
+              <input maxLength={10} type={showSignupConfirmPassword ? "text" : "password"} name="confirmPassword" value={signupData.confirmPassword} onChange={handleSignupChange} placeholder="Confirm Password" required />
               <span onClick={() => setShowSignupConfirmPassword(!showSignupConfirmPassword)} className="eye-icon">
                 <i className={`fa-solid ${showSignupConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
               </span>
@@ -182,7 +201,7 @@ function Login() {
             <input type="email" name="email" value={loginData.email} onChange={handleLoginChange} placeholder="Email" required />
             
             <div className="password-wrapper">
-              <input type={showLoginPassword ? "text" : "password"} name="password" value={loginData.password} onChange={handleLoginChange} placeholder="Password" required />
+              <input maxLength={10} type={showLoginPassword ? "text" : "password"} name="password" value={loginData.password} onChange={handleLoginChange} placeholder="Password" required />
               <span onClick={() => setShowLoginPassword(!showLoginPassword)} className="eye-icon">
                 <i className={`fa-solid ${showLoginPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
               </span>

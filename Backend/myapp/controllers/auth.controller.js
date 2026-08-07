@@ -22,6 +22,15 @@ export const registerUser = async (req, res) => {
             });
         }
 
+        // Validate password (8-10 chars, at least 1 upper, 1 lower, 1 number, 1 special, no spaces)
+        const passwordRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}/;
+
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                message: "Password must be 8-10 characters, include uppercase, lowercase, number, special character and no spaces"
+            });
+        }
+
         // Hash Password
         const hashedPassword = await bcrypt.hash(password, 10);
 
