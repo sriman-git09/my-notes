@@ -23,7 +23,7 @@ export const registerUser = async (req, res) => {
         }
 
         // Validate password (8-10 chars, at least 1 upper, 1 lower, 1 number, 1 special, no spaces)
-        const passwordRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
 
         if (!passwordRegex.test(password)) {
             return res.status(400).json({
