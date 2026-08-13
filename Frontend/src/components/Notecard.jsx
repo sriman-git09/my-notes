@@ -13,8 +13,8 @@ function Notecard({note}) {
         updateNote(note._id,editData)
         setIsEditing(false)
     }
-  return (
-     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-lg transition-all p-5 flex flex-col">
+    return (
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-lg transition-all p-5 flex flex-col min-w-0">
       {isEditing ? (
         <>
           {/* Edit Mode */}
@@ -59,7 +59,14 @@ function Notecard({note}) {
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             {note.title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-2 flex-1">
+          <p
+            className="text-gray-600 dark:text-gray-300 mt-2 flex-1 min-w-0 overflow-hidden whitespace-pre-wrap"
+            style={{
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word',
+              whiteSpace: 'pre-wrap'
+            }}
+          >
             {note.content}
           </p>
 
