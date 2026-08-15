@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Createnote from "./pages/Createnote";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import { NoteContext } from "./context/NoteContext";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
     "/",
     "/login",
     "/forgot-password",
+    "/reset-password",
   ].includes(location.pathname);
 
   return (
@@ -48,6 +50,7 @@ function App() {
           {/* Authentication */}
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Main Application */}
           <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />

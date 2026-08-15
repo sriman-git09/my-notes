@@ -1,22 +1,40 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { forgotPassword } from "../../api/authApi";
 import "./ForgotPassword.css";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    Swal.fire({
-      icon: "success",
-      title: "Reset Link Sent",
-      text: `If an account exists for ${email}, a password reset link has been sent. When you reset your password, it must be 8-10 characters, include an uppercase letter, a lowercase letter, a number and a special character, and cannot contain spaces.`,
-      confirmButtonColor: "#1d3557",
-    });
+    if (!emailRegex.test(email)) {
+      Swal.fire({ icon: "error", title: "Invalid email", text: "Please enter a valid email address.", confirmButtonColor: "#1d3557" });
+      return;
+    }
 
-    setEmail("");
+    setLoading(true);
+
+    forgotPassword({ email })
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "If an account exists",
+          text: `If an account exists for this email, a password reset link has been sent. When you reset your password, it must be 8-10 characters, include an uppercase letter, a lowercase letter, a number and a special character, and cannot contain spaces.`,
+          confirmButtonColor: "#1d3557",
+        });
+
+        setEmail("");
+      })
+      .catch(() => {
+        Swal.fire({ icon: "error", title: "Error", text: "Unable to process request. Please try again later.", confirmButtonColor: "#1d3557" });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -59,8 +77,8 @@ function ForgotPassword() {
               </ul>
           </div>
 
-          <button type="submit">
-            Send Reset Link
+          <button type="submit" disabled={loading}>
+            {loading ? "Sending..." : "Send Reset Link"}
           </button>
         </form>
 

@@ -1,5 +1,9 @@
-import express from "express";
 import dotenv from "dotenv";
+
+// MUST load environment variables BEFORE any other imports
+dotenv.config();
+
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dns from "dns";
@@ -8,8 +12,6 @@ import noteRoutes from "./routes/note.route.js";
 import authRoutes from "./routes/auth.route.js";
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4002;
